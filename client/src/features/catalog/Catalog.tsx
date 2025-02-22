@@ -1,5 +1,5 @@
 import { Product } from "../../app/models/Product"
-import { Box, Button } from "@mui/material";
+import { Box} from "@mui/material";
 import ProductList from "./ProductList";
 import { useState, useEffect } from "react";
 
@@ -19,8 +19,7 @@ export default function Catalog()
         <>  
          <Box display="flex" justifyContent="center" >
               <ProductList products={products}/>
-         </Box>        
-         <Button variant="contained" >Add product </Button>
+         </Box>     
         </>
     )
 }
