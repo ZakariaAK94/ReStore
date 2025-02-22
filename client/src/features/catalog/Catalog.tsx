@@ -1,0 +1,26 @@
+import { Product } from "../../app/models/Product"
+import { Box, Button } from "@mui/material";
+import ProductList from "./ProductList";
+import { useState, useEffect } from "react";
+
+
+export default function Catalog()
+{
+    
+    const [products, setProducts] = useState<Product[]>([]);
+
+    useEffect(()=>{
+    fetch("http://localhost:5000/api/products")
+    .then(response=> response.json() )
+    .then(data => setProducts(data));
+    },[]);
+
+    return(
+        <>  
+         <Box display="flex" justifyContent="center" >
+              <ProductList products={products}/>
+         </Box>        
+         <Button variant="contained" >Add product </Button>
+        </>
+    )
+}
