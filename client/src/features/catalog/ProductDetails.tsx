@@ -1,8 +1,10 @@
 import { Box, Divider, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Product } from '../../app/models/Product'
+import Agent from '../../app/api/agent'
+import NotFound from '../../app/api/errors/NotFound'
+import LoadingComponent from '../../app/layout/LoadingComponent'
 
 function ProductDetails() {
   const {id} = useParams<{id:string}>()
@@ -10,16 +12,16 @@ function ProductDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(()=>{
-    axios.get(`http://localhost:5000/api/Products/${id}`)
-     .then(response => setProduct(response.data))
+    id && Agent.Catalog.details(parseInt(id))
+     .then(response => setProduct(response))
      .catch(err => console.log(err))
      .finally(()=>setLoading(false));
 
   },[id])
 
-  if(loading) return <h3>Loading...</h3>
+  if(loading) return <LoadingComponent message='Loading product...' />
 
-  if(!product) return <h2>Product not found</h2>
+  if(!product) return <NotFound />
 
   return (  
     
@@ -65,29 +67,6 @@ function ProductDetails() {
             </Box>
       </Box>
 
-
-
-
-
-
-
-
-  //   <Box
-  //   display="grid"
-  //   gridTemplateColumns={{
-  //       xs: "1fr",          // 1 column on extra-small screens
-  //       sm: "repeat(2, 1fr)", // 2 columns on small screens
-  //       md: "repeat(3, 1fr)", // 3 columns on medium screens and up
-  //   }}
-  //   gap={3} 
-  //   justifyContent="center"                
-  //   >
-  //   {products.map((product) => (
-  //       <Box key={product.id} sx={{border: "1px solid #ddd", borderRadius: 2 }}>
-  //           <ProductCard product={product} />
-  //       </Box>
-  //       ))}
-  //  </Box>
   )
 }
 
