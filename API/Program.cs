@@ -11,8 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StoreContext>(options=>
-{ options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));}
-);
+ options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddCors();
 
@@ -28,7 +27,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(options=>{
-    options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+    options.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
 });
 
 app.UseAuthorization();
@@ -38,7 +37,6 @@ app.MapControllers();
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
 try
 {
     context.Database.Migrate();

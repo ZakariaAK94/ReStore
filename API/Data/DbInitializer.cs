@@ -209,11 +209,6 @@ namespace API.Data
             };
             
             context.Products.AddRange(Products);
-
-            // foreach (var product in Products)
-            // {
-            //     context.Products.Add(product);
-            // }
             
             context.SaveChanges();
         }

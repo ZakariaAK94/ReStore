@@ -12,8 +12,7 @@ namespace API.Middleware
         {            
             _env = env;
             _logger = logger;
-            _next = next;
-            
+            _next = next;            
         }
     
         public async Task InvokeAsync(HttpContext context) 
@@ -31,8 +30,8 @@ namespace API.Middleware
                 var response = new ProblemDetails  
                 {
                     Status = 500, 
-                    Detail = _env.IsDevelopment() ? ex.StackTrace?.ToString() : null,                    
-                    Title = ex.Message 
+                    Title = ex.Message,
+                    Detail = _env.IsDevelopment() ? ex.StackTrace?.ToString() : null                  
 
                 };
 
@@ -45,5 +44,8 @@ namespace API.Middleware
             }
         }
     }
+    
+
+    
 }
 

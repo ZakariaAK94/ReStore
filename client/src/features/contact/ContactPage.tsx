@@ -2,7 +2,7 @@ import { Typography } from '@mui/material'
 
 function ContactPage() {
   return (
-    <Typography>ContactPage will be here</Typography>
+    <Typography variant='h2'>ContactPage will be here</Typography>
   )
 }
 

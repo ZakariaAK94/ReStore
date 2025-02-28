@@ -10,11 +10,13 @@ namespace API.Controllers
         {
             return NotFound();
         }
+
         [HttpGet("bad-request")]
         public ActionResult GetBadRequest()
         {
-            return BadRequest(new ProblemDetails{Title="this is a bad request"});
+            return BadRequest(new ProblemDetails{ Title="this is a bad request" });
         }
+
         [HttpGet("unauthorised")]
         public ActionResult GetUnauthorised()
         {
@@ -33,5 +35,7 @@ namespace API.Controllers
         {
             throw new Exception("this is a server error");
         }
+
+       
     }
 }
