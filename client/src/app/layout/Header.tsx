@@ -3,6 +3,7 @@ import { AppBar, Badge, Box, IconButton, ListItem, Switch, Toolbar, Typography }
 import { Link, NavLink } from "react-router-dom";
 import { ShoppingCart } from "@mui/icons-material";
 import { useStoreContext } from "../Context/StoreContext";
+import { useAppSelector } from "../../features/contact/configureStore";
 
 const midLinks = [
     {title:'catalog', path:'/catalog'},
@@ -32,7 +33,7 @@ export default function Header({darkMode,handleSwitchMode}:Props)
         "&.active":{color:'text.secondary'}
     }
 
-    const {basket} = useStoreContext();
+    const {basket} = useAppSelector(state=>state.basket);
     const totalQuantity = basket===null ? 0 : basket.items.reduce((sum,item)=>{
               return sum = sum + item.quantity;
     },0);

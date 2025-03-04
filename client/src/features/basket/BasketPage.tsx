@@ -1,33 +1,24 @@
 import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { Add, Delete, Remove } from '@mui/icons-material';
-import { useStoreContext } from '../../app/Context/StoreContext';
-import { useState } from 'react';
-import Agent from '../../app/api/agent';
-import BasketSummary from '../basketSummary/BasketSummary';
+import BasketSummary from './BasketSummary';
 import { currencyFormat } from '../../app/util/util';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../contact/configureStore';
+import { addBasketItemAsync, removeBasketItemAsync } from './basketSlice';
 
 function BasketPage() {
      
-  const {basket, setBasket, removeItem} = useStoreContext();
-  const [Statusloading, setLoading] = useState<{ [key: string]: boolean }>({});
+  const {basket, status} = useAppSelector(state=>state.basket);
+  const dispatch = useAppDispatch();
 
  if(!basket) return <Typography variant='h3'>basket is empty, please add items!!</Typography>
 
-  function handleAdditem(productId: number, name:string) {
-    setLoading(prev=> ({...prev,[name]:true}));
-    Agent.Basket.addItems(productId)
-      .then((basket)=>setBasket(basket))
-      .catch(err => console.log(err))
-      .finally(()=>setLoading(prev=> ({...prev,[name]:false})));
+  function handleAdditem(productId: number) {
+    dispatch(addBasketItemAsync({productId,quantity:1}));
   }
 
-  function handleRemoveitem(productId: number, quantity:number=1, name:string) {
-    setLoading(prev=> ({...prev,[name]:true}))
-    Agent.Basket.removeItems(productId,quantity)
-      .then(()=>removeItem(productId,quantity))
-      .catch(err => console.log(err))
-      .finally(()=>setLoading(prev=> ({...prev,[name]:false})));
+  function handleRemoveitem(productId: number, quantity:number=1,name?:string) {
+    dispatch(removeBasketItemAsync({productId,quantity, name}));
   }
 
   return (
@@ -57,23 +48,23 @@ function BasketPage() {
               <TableCell align="right">{currencyFormat(item.price)}</TableCell>
               <TableCell align="center">
                 <Button 
-                       loading={Statusloading['rem'+item.productId]} 
-                       onClick={()=>handleRemoveitem(item.productId,1,'rem'+item.productId)}
+                       loading={status === ('pendingRemoveItem'+item.productId+'Rem')} 
+                       onClick={()=>handleRemoveitem(item.productId,1,'Rem')} 
                       color='error' >
                     <Remove />
                 </Button>
                 {item.quantity}
                 <Button 
-                    loading={Statusloading['add'+item.productId]}  
-                    onClick={()=>handleAdditem(item.productId,'add'+item.productId)}>
+                    loading={status === ('pendingAddItem'+item.productId)}  
+                    onClick={()=>handleAdditem(item.productId)}>
                     <Add />
                 </Button>
                 </TableCell>
               <TableCell align="right">{currencyFormat(item.price*item.quantity)}</TableCell>
               <TableCell align="center">
                 <Button 
-                loading={Statusloading['del'+item.productId]}  
-                onClick={()=>handleRemoveitem(item.productId,item.quantity,'del'+item.productId)} 
+                loading={status === ('pendingRemoveItem'+item.productId+'Del')}  
+                onClick={()=>handleRemoveitem(item.productId,item.quantity,'Del')} 
                 color="error">
                     <Delete />
                 </Button>
