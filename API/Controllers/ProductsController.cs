@@ -22,6 +22,7 @@ namespace API.Controllers
                      .Search(productParams.SearchTerm)
                      .Filter(productParams.Types, productParams.Brands)
                      .AsQueryable();
+
             var products = await PagedList<Product>.ToPagedList(query,productParams.PageNumber,productParams.PageSize);
 
             Response.AddPaginationHeader(products.MetaData);

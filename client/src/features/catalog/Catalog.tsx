@@ -23,7 +23,7 @@ export default function Catalog()
 
     useEffect(()=>{
     if(!loadingProduct) dispatch(fetchProductsAsync());
-    },[loadingProduct,dispatch]);
+    },[dispatch,loadingProduct]);
 
     useEffect(()=>{
         if(!filterLoading) dispatch(fetchFiltersProductAsync());

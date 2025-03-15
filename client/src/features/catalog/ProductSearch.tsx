@@ -13,12 +13,11 @@ export default function ProductSearch()
         dispatch(setProductParams({searchTerm:event.target.value}))
     },1000);
 
-
-
     return(
-        <TextField 
+        <TextField  
+                label="Search"
                 variant="outlined" 
-                value={searchTerm || 'Search product'} 
+                value={searchTerm || ''} 
                 fullWidth
                 onChange={(event:any)=>{
                     setSearchTerm(event.target.value);

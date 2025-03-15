@@ -6,7 +6,8 @@ namespace API.Entities
 
         public string BuyerId { get; set; }
 
-        public List<BasketItem> Items {get; set;} = new List<BasketItem>();
+
+        public List<BasketItem> Items {get; set;} = [];
 
         public void AddItem(Product product, int quantity)
         {

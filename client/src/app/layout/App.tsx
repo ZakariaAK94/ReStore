@@ -1,35 +1,33 @@
 import { Container, createTheme, CssBaseline, ThemeProvider} from "@mui/material"
 import Header from "./Header";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-// import { useStoreContext } from "../Context/StoreContext";
-import { getCookie } from "../util/util";
-import Agent from "../api/agent";
+import "react-toastify/dist/ReactToastify.css";
 import LoadingComponent from "./LoadingComponent";
 import { useAppDispatch } from "../../features/contact/configureStore";
-import { setBasket } from "../../features/basket/basketSlice";
+import { fetchBasketAsync } from "../../features/basket/basketSlice";
+import { fetchCurrentUser } from "../../features/account/accountSlice";
 
 function App() {
 
-  // const{setBasket} = useStoreContext();
   const dispatch = useAppDispatch();
   const[loading, setLoading] = useState(true);
 
+  const initApp = useCallback(async ()=>
+  {
+    try{
+      await dispatch(fetchCurrentUser());
+      await dispatch(fetchBasketAsync());
+    }catch(error:any)
+    {
+      console.log(error);
+    }
+  },[dispatch]);
+
  useEffect(()=>{
-  const buyerId = getCookie("buyerId");
-  if(buyerId)
-  {
-    Agent.Basket.get()
-      .then(basket => dispatch(setBasket(basket)))
-      .catch(err => console.log(err))
-      .finally(()=>setLoading(false));
-  }else
-  {
-    setLoading(false);
-  }
- },[dispatch])
+  initApp().then(()=>setLoading(false));
+ },[initApp])
 
 
   const [darkMode, setDarkMode] = useState(false);
@@ -51,12 +49,12 @@ function App() {
   return (
   
     <ThemeProvider theme={theme}>
-       <ToastContainer position="bottom-right" hideProgressBar closeOnClick={true} theme="colored" />
         <CssBaseline />
         <Header handleSwitchMode={handleSwitchMode} darkMode={darkMode}/>
         <Container>          
             <Outlet  />
         </Container>
+       <ToastContainer position="bottom-right" closeOnClick={true} theme="colored" style={{ zIndex: 9999 }} />
     </ThemeProvider>    
   )
 }

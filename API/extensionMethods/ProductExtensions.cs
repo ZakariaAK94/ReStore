@@ -16,6 +16,7 @@ namespace API.extensionMethods
 
             return query;
         }
+                
         public static IQueryable<Product> Search(this IQueryable<Product> query, string searchTerm)
         {
             if(string.IsNullOrEmpty(searchTerm)) return query;
@@ -34,6 +35,7 @@ namespace API.extensionMethods
 
             if(!string.IsNullOrEmpty(types))
               typesList.AddRange([.. types.ToLower().Split(",")]);
+
 
             if(!string.IsNullOrEmpty(brands))
             brandsList.AddRange([.. brands.ToLower().Split(",")]);

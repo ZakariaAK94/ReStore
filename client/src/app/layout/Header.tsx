@@ -2,8 +2,8 @@ import List from "@mui/material/List";
 import { AppBar, Badge, Box, IconButton, ListItem, Switch, Toolbar, Typography } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import { ShoppingCart } from "@mui/icons-material";
-import { useStoreContext } from "../Context/StoreContext";
 import { useAppSelector } from "../../features/contact/configureStore";
+import DropMenu from "../components/DropMenu";
 
 const midLinks = [
     {title:'catalog', path:'/catalog'},
@@ -25,6 +25,7 @@ interface Props{
 
 export default function Header({darkMode,handleSwitchMode}:Props)
 {
+    const {user} = useAppSelector(state=>state.account); 
     const navStyles = {
         color:'inherit', 
         textDecoration:'none',
@@ -72,7 +73,10 @@ export default function Header({darkMode,handleSwitchMode}:Props)
                             <ShoppingCart />
                         </Badge>
                     </IconButton>
-                    <List sx={{ display: "flex" }}>
+                    {user ? (
+                        <DropMenu />
+                    ):(
+                        <List sx={{ display: "flex" }}>
                         {rightLinks.map(({title, path})=>(
                             <ListItem
                                 component={NavLink}
@@ -84,6 +88,7 @@ export default function Header({darkMode,handleSwitchMode}:Props)
                             </ListItem>
                         ))}
                     </List>
+                    )}
                 </Box>
             </Toolbar>
         </AppBar>

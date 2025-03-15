@@ -44,8 +44,7 @@ function ProductDetails() {
     }
   }
 
-  return (  
-    
+  return (      
         <Box 
           display="grid" 
           gridTemplateColumns="repeat(2, 1fr)" 

@@ -10,6 +10,7 @@ interface Props{
 }
 export default function ProductList({products}:Props)
 {
+    
     const {loadingProduct} = useAppSelector(state => state.catalog);
     return(        
             <Box
