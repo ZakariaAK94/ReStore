@@ -31,7 +31,7 @@ export default function Login() {
     {
        try{
         await dispatch(signInUser(data));
-        navigate(location.state.from || "/catalog");
+        navigate(location.state?.from || "/catalog");
       }catch(error)
       {
         console.log(error);

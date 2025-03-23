@@ -42,15 +42,12 @@ builder.Services.AddSwaggerGen(c=>{
     });
 });
 
-builder.Services.AddDbContext<StoreContext>(options=>
- options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<StoreContext>(options=> options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddCors();
 
-builder.Services.AddIdentityCore<User>(option=>{
-    option.User.RequireUniqueEmail=true;
-})
-    .AddRoles<IdentityRole>()
+builder.Services.AddIdentityCore<User>(option=> option.User.RequireUniqueEmail=true)
+    .AddRoles<Role>()
     .AddEntityFrameworkStores<StoreContext>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
