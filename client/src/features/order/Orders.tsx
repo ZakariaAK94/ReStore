@@ -10,7 +10,7 @@ import OrderDetailed from './OrderDetailed';
 function Orders() {
 
  const[loading, setLoading] = useState(true);
- const [order, setOrder] = useState<Order | null>(null);
+ const [currentOrder, setOrder] = useState<Order | null>(null);
  const[isClickedView,setIsClickedView  ] = useState(false);
  const[orders, setOrders] = useState<Order[] | null>(null);
 
@@ -21,7 +21,7 @@ function Orders() {
     .finally(()=>setLoading(false))
  },[]);
 
- function handleViewClicked()
+ function handleViewClicked(order:Order)
  {    
       setIsClickedView(true);
       setOrder(order);
@@ -54,11 +54,11 @@ function Orders() {
                       <TableCell component="th" scope="row">
                         {order.id}
                       </TableCell>
-                      <TableCell align="right">{currencyFormat(order.subtotal)}</TableCell>
+                      <TableCell align="right">{currencyFormat(order.total)}</TableCell>
                       <TableCell align="right">{order.date.split('T')[0]}</TableCell>
                       <TableCell align="right">{order.orderStatus}</TableCell>
                       <TableCell align="right">
-                        <Button onClick={()=>handleViewClicked}>View</Button>
+                        <Button onClick={()=>handleViewClicked(order)}>View</Button>
                         </TableCell>
                     </TableRow>
                   ))}
@@ -68,7 +68,7 @@ function Orders() {
           )
           :
           (
-            <OrderDetailed order={order} setIsClickedView={setIsClickedView}/>
+            <OrderDetailed order={currentOrder} setIsClickedView={setIsClickedView}/>
           ) 
       }
      </>

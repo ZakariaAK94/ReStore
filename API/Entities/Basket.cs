@@ -9,6 +9,9 @@ namespace API.Entities
 
         public List<BasketItem> Items {get; set;} = [];
 
+        public string PaymentIntentId { get; set; }
+        public string ClientSecret { get; set; }
+
         public void AddItem(Product product, int quantity)
         {
             var existingItem = Items.FirstOrDefault(item => item.Product.Id == product.Id);

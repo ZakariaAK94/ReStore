@@ -16,6 +16,6 @@ namespace API.DTOs
 
         public string OrderStatus { get; set; }
 
-        public long Total;
+        public long Total {get; set;}
     }
 }

@@ -13,11 +13,7 @@ namespace API.Controllers
     public class OrdersController : BaseApiController
     {
         private readonly StoreContext _context;
-        public OrdersController(StoreContext context)
-        {
-            _context = context;
-            
-        }
+        public OrdersController(StoreContext context) =>  _context = context;
 
         [HttpGet]
         public async Task<List<OrderDTO>> GetOrders()
@@ -74,7 +70,8 @@ namespace API.Controllers
                 ShippingAddress = orderDTO.Address,
                 OrderItems = items,
                 Subtotal = Subtotal,
-                DeliveryFee = DeliveryFee
+                DeliveryFee = DeliveryFee,
+                PaymentIntentId = basket.PaymentIntentId
             };
 
             _context.Orders.Add(order);
@@ -83,7 +80,7 @@ namespace API.Controllers
             if(orderDTO.SaveAddress)
             {
                 var user = await _context.Users.Include(u=>u.Address)
-                                                .FirstOrDefaultAsync(u=>u.UserName == User.Identity.Name);
+                                               .FirstOrDefaultAsync(u=>u.UserName == User.Identity.Name);
 
                 var Address = new UserAddress{
                 FullName = orderDTO.Address.FullName,

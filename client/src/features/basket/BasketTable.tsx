@@ -11,7 +11,6 @@ interface Props{
 }
 
 function BasketTable({items, isBasket}:Props) {
-console.log(items);
  const {status} = useAppSelector(state=>state.basket);
   const dispatch = useAppDispatch();
    function handleAdditem(productId: number) {
