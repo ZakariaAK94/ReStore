@@ -1,0 +1,27 @@
+# fly.toml app configuration file generated for restore-2025 on 2025-04-03T00:20:53Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'restore-2025'
+primary_region = 'cdg'
+
+[build]
+  image = 'fullstackapplearning/restore:latest'
+[env]
+  ASPNETCORE_URLS="http://+:8080"
+  StripeSettings__PublishableKey = "pk_test_51R5xUHG81XEK7h9miBOXlYhwHyPHagH49ZkQEZZJqUtym9jvwPSS50e3UL91Da1dPnGXCnCd1mlOzp4WLrXAaRzP00b4JRQxT1"
+
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1

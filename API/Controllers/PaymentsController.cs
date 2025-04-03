@@ -21,9 +21,7 @@ namespace API.Controllers
         {
             _config = config;
             _paymentService = paymentService;
-            _context = context;
-
-            
+            _context = context;            
         }
 
         [Authorize]
@@ -40,10 +38,10 @@ namespace API.Controllers
 
             if(intent==null) return BadRequest(new ProblemDetails{Title="Problem creating payment intent"});
 
-            basket.PaymentIntentId = basket.PaymentIntentId ?? intent.Id ;
-            basket.ClientSecret = basket.ClientSecret ?? intent.ClientSecret;
+            basket.PaymentIntentId ??= intent.Id ;
+            basket.ClientSecret ??= intent.ClientSecret;
 
-            _context.Update(basket);
+            // _context.Update(basket);
 
             var result = _context.SaveChanges() > 0;
 

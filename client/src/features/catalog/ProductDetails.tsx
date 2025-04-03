@@ -13,7 +13,7 @@ function ProductDetails() {
   const {id} = useParams<{id:string}>()
   const product = useAppSelector(state => productSelector.selectById(state,parseInt(id!)));
   const {status: productStatus} = useAppSelector(state=>state.catalog);
-  const item = basket?.items.find(item=>item.productId === +id! );
+  const item = basket?.items.find(item=>item.productId === product.id! );
   const[quantity,setQuantity]=useState(0);
 
   useEffect(()=>{
@@ -28,7 +28,7 @@ function ProductDetails() {
 
   function handleInputChange(event: any) {
     if(event.target.value >=0)
-          setQuantity(event.target.value);
+          setQuantity(parseInt(event.target.value));
   }
 
   function handleUpdate()

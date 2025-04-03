@@ -11,6 +11,8 @@ import { router } from './app/router/Routes';
 import { Provider } from 'react-redux';
 import { store } from './features/contact/configureStore';
 import { fetchProductsAsync } from './features/catalog/catalogSlice';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css"; 
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,7 +24,7 @@ store.dispatch(fetchProductsAsync());
 root.render(
   <React.StrictMode>    
       <Provider store={store}>
-       <RouterProvider router={router}/>
+        <RouterProvider router={router}/>
       </Provider>    
   </React.StrictMode>
 );
