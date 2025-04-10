@@ -10,9 +10,9 @@ public class ImageService
     public ImageService(IConfiguration config)
     {
         var acc = new Account(
-            config["CloudinarySettings:CloudName"],
-            config["CloudinarySettings:ApiKey"],
-            config["CloudinarySettings:ApiSecret"]
+            config["Cloudinary:CloudName"],
+            config["Cloudinary:ApiKey"],
+            config["Cloudinary:ApiSecret"]
         );
         _cloudinary = new Cloudinary(acc);
     }
