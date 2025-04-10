@@ -1,19 +1,32 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../features/contact/configureStore"
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
-export default function RequireAuth() {
+interface Props{
+  roles?:string[],
+}
 
-  const {user} = useAppSelector(state=>state.account);
+export default function RequireAuth({roles}:Props) {
+
+  const { user } = useAppSelector(state => state.account);
   const location = useLocation();
+  const [unauthorized, setUnauthorized] = useState(false);
 
-  if(!user)
-  {
-    return (
-      <Navigate to='/login' state={{from:location}}/>
-    )
+  useEffect(() => {
+    if (roles && user && !roles.some(r => user.roles?.includes(r))) {
+      toast.error('You are not authorized!!');
+      setUnauthorized(true);
+    }
+  }, [roles, user]);
+
+  if (!user) {
+    return <Navigate to='/login' state={{ from: location }} />;
   }
 
-  return (
-    <Outlet />
-  )
+  if (unauthorized) {
+    return <Navigate to='/catalog' />;
+  }
+
+  return <Outlet />;
 }

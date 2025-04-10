@@ -64,6 +64,15 @@ export default function Header({darkMode,handleSwitchMode}:Props)
                                 {title.toLocaleUpperCase()}
                             </ListItem>
                         ))}
+                        {user && user.roles?.includes("Admin") &&
+                        <ListItem
+                        component={NavLink}
+                        to={'/inventory'}
+                        sx={navStyles}
+                        >
+                            INVENTORY
+                        </ListItem>
+                        }
                     </List>
                 </Box>
 
@@ -86,7 +95,7 @@ export default function Header({darkMode,handleSwitchMode}:Props)
                             >
                                 {title.toLocaleUpperCase()}
                             </ListItem>
-                        ))}
+                        ))}                          
                     </List>
                     )}
                 </Box>
