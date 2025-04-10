@@ -11,7 +11,8 @@ primary_region = 'cdg'
 [env]
   ASPNETCORE_URLS="http://+:8080"
   StripeSettings__PublishableKey = "pk_test_51R5xUHG81XEK7h9miBOXlYhwHyPHagH49ZkQEZZJqUtym9jvwPSS50e3UL91Da1dPnGXCnCd1mlOzp4WLrXAaRzP00b4JRQxT1"
-
+  Cloudinary__CloudName="df30ovivz"
+  Cloudinary__ApiKey=294813813627195
 
 [http_service]
   internal_port = 8080

@@ -8,6 +8,7 @@ interface StoreContextValue{
     removeItem: (productId: number, quantity:number)=>void
 }
 
+
 export const StoreContext = createContext<StoreContextValue | undefined>(undefined);
 
 export function useStoreContext()

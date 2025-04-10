@@ -3,12 +3,17 @@ import { useController, UseControllerProps } from 'react-hook-form'
 
 interface Props extends UseControllerProps
 {
-    label : string
+    label : string,
+    multiline?:boolean,
+    rows?:number,
+    type?:string,
+    startAdornment?: React.ReactNode;
 }
 
 function AppTextInput(props:Props) 
 {
-    const { field, fieldState } = useController({...props, defaultValue:''});
+    const { field, fieldState } = 
+    useController({...props, defaultValue:''});
 
   return (
     <TextField
@@ -17,7 +22,7 @@ function AppTextInput(props:Props)
     fullWidth
     variant='outlined'
     error={!!fieldState.error}
-    helperText={fieldState.error?.message}
+    helperText={fieldState.error?.message} 
 
     />
   )
