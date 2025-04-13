@@ -16,8 +16,6 @@ const rightLinks = [
     {title:'register', path:'/register'}
 ];
 
-
-
 interface Props{
     handleSwitchMode: ()=>void;
     darkMode: boolean
@@ -42,17 +40,23 @@ export default function Header({darkMode,handleSwitchMode}:Props)
 
 
     return(
-        <AppBar position="static">
+        <AppBar position="static" sx={{width:"100%"}}>
             <Toolbar sx={{display:"flex", justifyContent:"space-between", alignItems:"center"}} >
-
-                <Box display='flex' alignItems='center'>
+                <Box
+                    display='flex' 
+                    alignItems='center' 
+                    sx={{
+                    flexDirection: { xs: "column", sm: "row" }, // Stack vertically on small screens
+                    gap: { xs: 2, sm: 2 }, // Adjust spacing between items for small screens
+                 }}>
                     <Typography variant="h5" component={NavLink} to='/' sx={navStyles} >
                         RE-STORE
                     </Typography>
                     <Switch checked={darkMode} onChange={handleSwitchMode} />
                 </Box>
 
-                <Box>
+                
+                <Box  >
                     <List sx={{ display: "flex" }}>
                         {midLinks.map(({title, path})=>(
                             <ListItem
@@ -103,3 +107,4 @@ export default function Header({darkMode,handleSwitchMode}:Props)
         </AppBar>
     )
 }
+

@@ -22,7 +22,7 @@ namespace API.Controllers
             _tokenService = tokenService;
             _context = context;
             _userManager = userManager;
-            
+
         }
 
         [HttpPost("login")]
@@ -30,7 +30,7 @@ namespace API.Controllers
         {
             var user = await _userManager.FindByNameAsync(loginDTO.UserName);
 
-            if(user==null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
+            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
             {
                 return Unauthorized();
             }
@@ -38,16 +38,17 @@ namespace API.Controllers
             var userBasket = await GetBasket(loginDTO.UserName);
             var anonBaskt = await GetBasket(Request.Cookies["buyerId"]);
 
-            if(anonBaskt != null)
+            if (anonBaskt != null)
             {
-                if(userBasket != null)  _context.Baskets.Remove(userBasket);
+                if (userBasket != null) _context.Baskets.Remove(userBasket);
                 Response.Cookies.Delete("buyerId");
                 anonBaskt.BuyerId = user.UserName;
                 await _context.SaveChangesAsync();
             }
 
-            return new UserDTO{
-                Email=user.Email,
+            return new UserDTO
+            {
+                Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
                 Basket = anonBaskt != null ? anonBaskt.MapBasketToDTO() : userBasket?.MapBasketToDTO()
             };
@@ -56,15 +57,15 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDTO registerDTO)
         {
-            var user = new User{UserName = registerDTO.UserName, Email = registerDTO.Email};
+            var user = new User { UserName = registerDTO.UserName, Email = registerDTO.Email };
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(error.Code, error.Description);                    
+                    ModelState.AddModelError(error.Code, error.Description);
                 }
 
                 return ValidationProblem();
@@ -83,7 +84,8 @@ namespace API.Controllers
 
             var currentUserBasket = await GetBasket(User.Identity.Name);
 
-            return new UserDTO{
+            return new UserDTO
+            {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
                 Basket = currentUserBasket?.MapBasketToDTO()
@@ -95,13 +97,13 @@ namespace API.Controllers
         public async Task<ActionResult<UserAddress>> GetSavedAddress()
         {
             return await _userManager.Users
-                         .Where(u=> u.UserName == User.Identity.Name)
-                         .Select(u=> u.Address)
+                         .Where(u => u.UserName == User.Identity.Name)
+                         .Select(u => u.Address)
                          .FirstOrDefaultAsync();
         }
         private async Task<Basket> GetBasket(string buyerId)
         {
-            if(string.IsNullOrEmpty(buyerId))
+            if (string.IsNullOrEmpty(buyerId))
             {
                 Response.Cookies.Delete("buyerId");
                 return null;

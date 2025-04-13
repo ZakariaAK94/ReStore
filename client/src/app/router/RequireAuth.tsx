@@ -15,8 +15,8 @@ export default function RequireAuth({roles}:Props) {
 
   useEffect(() => {
     if (roles && user && !roles.some(r => user.roles?.includes(r))) {
-      toast.error('You are not authorized!!');
       setUnauthorized(true);
+      toast.error('You are not authorized!!');
     }
   }, [roles, user]);
 

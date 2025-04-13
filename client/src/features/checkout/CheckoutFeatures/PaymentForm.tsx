@@ -14,8 +14,6 @@ interface Props
 
 export default function PaymentForm({cardState, onCardInputChange}:Props) {
   const{control} = useFormContext();
- 
-
 
   return (
     <>

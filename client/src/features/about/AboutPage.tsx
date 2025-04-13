@@ -15,8 +15,15 @@ function AboutPage() {
 
   return (
     <Container>
-      <Typography gutterBottom variant='h2'>Errors for testing purposes</Typography>
-      <ButtonGroup fullWidth>
+      <Typography gutterBottom variant='h2' sx={{fontSize:{xs:'40px', sm:'40px'}}}>Errors for testing purposes</Typography>
+      <ButtonGroup 
+           fullWidth
+           
+           sx={{
+             flexDirection:{xs:'column',sm:'column', md:'row'},
+             gap: { xs: 2, sm: 2, md:0 }
+           }}
+      >
          <Button  variant='contained' onClick={()=>Agent.TestErrors.get400Error().catch(err => console.log(err))} >Test 400 Error</Button>
          <Button  variant='contained' onClick={()=>Agent.TestErrors.get401Error().catch(err => console.log(err))} >Test 401 Error</Button>
          <Button  variant='contained' onClick={()=>Agent.TestErrors.get404Error().catch(err => console.log(err))} >Test 404 Error</Button>

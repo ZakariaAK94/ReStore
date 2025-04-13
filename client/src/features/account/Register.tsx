@@ -1,11 +1,13 @@
 import { Box, Button, Divider, FormLabel, FormControl, TextField, Typography, Container, Avatar} from "@mui/material";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LockOutlined } from "@mui/icons-material";
 import Agent from "../../app/api/agent";
 import { toast } from "react-toastify";
 
 export default function Register() {
+  const location = useLocation();
+  const from = location.state?.from || '/catalog'; // fallback route
   const navigate = useNavigate();
    const { register, handleSubmit, setError, formState:{isSubmitting,isValid, errors} } = useForm({
       defaultValues:{
@@ -69,7 +71,7 @@ export default function Register() {
              onSubmit={handleSubmit(data => Agent.Account.register(data)
                           .then(()=>{
                             toast.success("Registration successful - you can now login");
-                            navigate("/login")
+                            navigate("/login",{state:{from}})
                           })
                           .catch(err => handleApiErrors(err)))} 
              noValidate sx={{ width: "100%" }}>
@@ -110,7 +112,7 @@ export default function Register() {
                 required:'password is required',
                 pattern:{
                   value:/(?=^.{8,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)[0-9a-zA-Z!@#$%^&*()]*$/,
-                  message:"password doesn't meet complixety requirements"
+                  message:"Password must contain at least 8 characters, an uppercase letter, a number"
 
                 }})}
               error={!!errors.password?.message}

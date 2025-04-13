@@ -13,11 +13,11 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c=>{
+builder.Services.AddSwaggerGen(c =>
+{
     var jwtSecurityScheme = new OpenApiSecurityScheme
     {
         BearerFormat = "JWT",
@@ -33,7 +33,7 @@ builder.Services.AddSwaggerGen(c=>{
         }
     };
 
-     c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+    c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -65,28 +65,30 @@ else
 
     connString = $"Server={updatedHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
 }
+
 builder.Services.AddDbContext<StoreContext>(opt =>
 {
     opt.UseNpgsql(connString);
 });
 
-
 builder.Services.AddCors();
 
-builder.Services.AddIdentityCore<User>(option=> option.User.RequireUniqueEmail=true)
+builder.Services.AddIdentityCore<User>(option => option.User.RequireUniqueEmail = true)
     .AddRoles<Role>()
     .AddEntityFrameworkStores<StoreContext>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-  .AddJwtBearer(opt=>{
-    opt.TokenValidationParameters = new TokenValidationParameters{
-        ValidateAudience = false,
-        ValidateIssuer = false,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-        .GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
-    };
+  .AddJwtBearer(opt =>
+  {
+      opt.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateAudience = false,
+          ValidateIssuer = false,
+          ValidateLifetime = true,
+          ValidateIssuerSigningKey = true,
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+          .GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
+      };
   });
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
@@ -103,8 +105,9 @@ app.UseMiddleware<ExceptionMiddleware>(); // Register the exception handler
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c=>{
-        c.ConfigObject.AdditionalItems.Add("persistAuthorization","true");
+    app.UseSwaggerUI(c =>
+    {
+        c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
     });
 }
 
@@ -112,7 +115,8 @@ app.UseStaticFiles();
 app.UseDefaultFiles();
 
 
-app.UseCors(options=>{
+app.UseCors(options =>
+{
     options.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
 });
 

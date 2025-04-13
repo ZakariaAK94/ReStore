@@ -9,26 +9,28 @@ namespace API.Data
         public static async Task Initialize(StoreContext context, UserManager<User> userManager)
         {
 
-            if(!userManager.Users.Any())
+            if (!userManager.Users.Any())
             {
-                var user = new User{
+                var user = new User
+                {
                     UserName = "bob",
                     Email = "bob@test.com"
                 };
 
                 await userManager.CreateAsync(user, "Pa$$w0rd");
-                await userManager.AddToRoleAsync(user,"Member");
+                await userManager.AddToRoleAsync(user, "Member");
 
-                var admin = new User{
-                    UserName="admin",
-                    Email ="admin@test.com"
+                var admin = new User
+                {
+                    UserName = "admin",
+                    Email = "admin@test.com"
                 };
 
                 await userManager.CreateAsync(admin, "Pa$$w0rd");
-                await userManager.AddToRolesAsync(admin, ["Member","Admin"]);
+                await userManager.AddToRolesAsync(admin, ["Member", "Admin"]);
             }
 
-            if(context.Products.Any()) return;
+            if (context.Products.Any()) return;
 
             var Products = new List<Product>
             {
@@ -229,9 +231,9 @@ namespace API.Data
                     QuantityInStock = 100
                 },
             };
-            
+
             context.Products.AddRange(Products);
-            
+
             context.SaveChanges();
         }
     }

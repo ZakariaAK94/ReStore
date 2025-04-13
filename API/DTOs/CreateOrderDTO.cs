@@ -7,6 +7,6 @@ namespace API.DTOs
         public bool SaveAddress { get; set; }
 
         public shippingAddress Address { get; set; }
-    
+
     }
 }

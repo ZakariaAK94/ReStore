@@ -13,14 +13,14 @@ namespace API.extensionMethods
             {
                 Id = order.Id,
                 BuyerId = order.BuyerId,
-                ShippingAddress = order.ShippingAddress,             
+                ShippingAddress = order.ShippingAddress,
                 OrderStatus = order.OrderStatus.ToString(),
                 Date = order.Date,
                 DeliveryFee = order.DeliveryFee,
                 Subtotal = order.Subtotal,
                 Total = order.GetTotal(),
                 OrderItems = order.OrderItems
-                            .Select(orderitem=>new OrderItemDTO
+                            .Select(orderitem => new OrderItemDTO
                             {
                                 ProductId = orderitem.ItemOrdered.ProductId,
                                 Name = orderitem.ItemOrdered.Name,

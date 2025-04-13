@@ -1,5 +1,4 @@
 import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material"
-import Header from "./Header";
 import { useCallback, useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -9,6 +8,7 @@ import { useAppDispatch } from "../../features/contact/configureStore";
 import { fetchBasketAsync } from "../../features/basket/basketSlice";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import HomePage from "../../features/home/HomePage";
+import HeaderTest from "./HeaderTest";
 
 function App() {
 
@@ -50,7 +50,7 @@ function App() {
 
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header handleSwitchMode={handleSwitchMode} darkMode={darkMode} />
+      <HeaderTest handleSwitchMode={handleSwitchMode} darkMode={darkMode} />
       {loading ? <LoadingComponent message="Initializing app..." />
         : location.pathname === "/" ? <HomePage />
           : <Container sx={{mt:4}}>

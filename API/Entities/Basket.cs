@@ -7,7 +7,7 @@ namespace API.Entities
         public string BuyerId { get; set; }
 
 
-        public List<BasketItem> Items {get; set;} = [];
+        public List<BasketItem> Items { get; set; } = [];
 
         public string PaymentIntentId { get; set; }
         public string ClientSecret { get; set; }
@@ -16,27 +16,28 @@ namespace API.Entities
         {
             var existingItem = Items.FirstOrDefault(item => item.Product.Id == product.Id);
 
-            if(existingItem!= null)
+            if (existingItem != null)
             {
-                 existingItem.Quantity += quantity;
-            }else
-            {
-                Items.Add(new BasketItem{Product=product, Quantity=quantity});
+                existingItem.Quantity += quantity;
             }
-           
+            else
+            {
+                Items.Add(new BasketItem { Product = product, Quantity = quantity });
+            }
+
         }
 
-        public void RemoveItem (Product product, int quantity)
+        public void RemoveItem(Product product, int quantity)
         {
             var Item = Items.FirstOrDefault(item => item.Product.Id == product.Id);
-            if(Item == null ) return;
-            
-            Item.Quantity -= quantity;            
+            if (Item == null) return;
 
-            if(Item.Quantity <= 0)
+            Item.Quantity -= quantity;
+
+            if (Item.Quantity <= 0)
                 Items.Remove(Item);
         }
 
-       
+
     }
 }

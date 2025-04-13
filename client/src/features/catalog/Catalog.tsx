@@ -27,7 +27,7 @@ export default function Catalog()
         <Box 
             display="grid" 
             gridTemplateColumns={{
-                md: "3fr 9fr" 
+                md: "3fr 9fr"                 
             }} 
             gap={6}
          >          
@@ -57,7 +57,7 @@ export default function Catalog()
                       />
                 </Paper>
             </Box>
-            <Box display="flex" flexDirection="column" minHeight="100vh">
+            <Box display="flex" flexDirection="column" minHeight="100vh" alignItems='center'>
                 <ProductList products={products} />
                 <Box sx={{ marginTop: "auto" }}>  
                    { metaData &&

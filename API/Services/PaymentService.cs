@@ -19,11 +19,11 @@ namespace API.Services
 
             var Intent = new PaymentIntent();
 
-            var Subtotal = basket.Items.Sum(item=>item.Quantity*item.Product.Price);
+            var Subtotal = basket.Items.Sum(item => item.Quantity * item.Product.Price);
 
             var DeliveryFees = Subtotal > 10000 ? 0 : 500;
 
-            if(string.IsNullOrEmpty(basket.PaymentIntentId))
+            if (string.IsNullOrEmpty(basket.PaymentIntentId))
             {
                 var options = new PaymentIntentCreateOptions
                 {
@@ -34,9 +34,11 @@ namespace API.Services
 
                 Intent = await Service.CreateAsync(options);
 
-            }else
+            }
+            else
             {
-                var options = new PaymentIntentUpdateOptions{
+                var options = new PaymentIntentUpdateOptions
+                {
                     Amount = Subtotal + DeliveryFees
                 };
 

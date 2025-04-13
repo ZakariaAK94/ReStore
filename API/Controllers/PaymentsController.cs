@@ -21,7 +21,7 @@ namespace API.Controllers
         {
             _config = config;
             _paymentService = paymentService;
-            _context = context;            
+            _context = context;
         }
 
         [Authorize]
@@ -32,38 +32,38 @@ namespace API.Controllers
                                .GetBasket(User.Identity.Name)
                                .FirstOrDefaultAsync();
 
-            if(basket == null) return NotFound();
+            if (basket == null) return NotFound();
 
             var intent = await _paymentService.CreateOrUpdatePaymentIntent(basket);
 
-            if(intent==null) return BadRequest(new ProblemDetails{Title="Problem creating payment intent"});
+            if (intent == null) return BadRequest(new ProblemDetails { Title = "Problem creating payment intent" });
 
-            basket.PaymentIntentId ??= intent.Id ;
+            basket.PaymentIntentId ??= intent.Id;
             basket.ClientSecret ??= intent.ClientSecret;
 
-            // _context.Update(basket);
+            _context.Update(basket);
 
             var result = _context.SaveChanges() > 0;
 
-            if(!result) return BadRequest(new ProblemDetails{Title="Problem saving data in database"});
+            if (!result) return BadRequest(new ProblemDetails { Title = "Problem saving data in database" });
 
             return basket.MapBasketToDTO();
-            
+
         }
 
         [HttpPost("webhook")]
         public async Task<ActionResult> StripeWebHook()
         {
-            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();        
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
             var stripeEvent = EventUtility.ConstructEvent(json, Request.Headers["Stripe-signature"],
             _config["StripeSettings:WbSecret"]);
 
             var charge = (Charge)stripeEvent.Data.Object;
 
-            var order = await _context.Orders.FirstOrDefaultAsync(x=>x.PaymentIntentId == charge.PaymentIntentId);
+            var order = await _context.Orders.FirstOrDefaultAsync(x => x.PaymentIntentId == charge.PaymentIntentId);
 
-            if(charge.Status == "succeeded") order.OrderStatus = OrderStatus.PaymentReceived;
+            if (charge.Status == "succeeded") order.OrderStatus = OrderStatus.PaymentReceived;
 
             await _context.SaveChangesAsync();
 

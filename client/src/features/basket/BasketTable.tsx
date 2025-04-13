@@ -25,7 +25,7 @@ function BasketTable({items, isBasket}:Props) {
   return (
     <>
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} >
+      <Table  >
         <TableHead>
           <TableRow>
             <TableCell >Product</TableCell>

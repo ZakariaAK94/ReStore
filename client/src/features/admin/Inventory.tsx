@@ -83,7 +83,7 @@ export default function Inventory() {
                                 <TableCell align="right">
                                     <Button onClick={()=>handleEditChange(product)} startIcon={<Edit />} />
                                     <Button 
-                                    loading={target===product.id}
+                                    loading={target===product.id && loading}
                                     onClick={()=>{
                                         handleDeleteClick(product.id);
                                         setTarget(product.id)

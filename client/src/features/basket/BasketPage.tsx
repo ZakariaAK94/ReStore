@@ -17,8 +17,17 @@ function BasketPage() {
     <BasketTable items={basket.items} isBasket={true} />
     <Box 
         display="grid" 
-        gridTemplateColumns="repeat(2, 1fr)" 
-        gridTemplateRows="repeat(2, 1fr)" 
+        gridTemplateColumns={{
+          xs: "1fr",   
+          sm: "repeat(2, 1fr)", 
+          md: "repeat(2, 1fr)"
+        }}
+        
+        gridTemplateRows={{
+          xs: "1fr",   
+          sm: "repeat(2, 1fr)", 
+          md: "repeat(2, 1fr)"
+        }} 
           >
          <Box />
          <Box>

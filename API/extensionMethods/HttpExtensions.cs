@@ -7,7 +7,7 @@ namespace API.extensionMethods
     {
         public static void AddPaginationHeader(this HttpResponse response, MetaData metadata)
         {
-            var options = new JsonSerializerOptions{PropertyNamingPolicy=JsonNamingPolicy.CamelCase};
+            var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
             response.Headers["Pagination"] = JsonSerializer.Serialize(metadata, options);
             response.Headers["Access-Control-Expose-Headers"] = "Pagination";
         }

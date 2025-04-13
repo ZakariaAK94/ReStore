@@ -4,12 +4,12 @@ using AutoMapper;
 
 namespace API.RequestHelpers
 {
-   public class MappingProfile : Profile
-{
-    public MappingProfile()
+    public class MappingProfile : Profile
     {
-        CreateMap<CreateProductDTO,Product>();
-        CreateMap<UpdateProductDTO,Product>();
+        public MappingProfile()
+        {
+            CreateMap<CreateProductDTO, Product>();
+            CreateMap<UpdateProductDTO, Product>();
+        }
     }
-}
 }

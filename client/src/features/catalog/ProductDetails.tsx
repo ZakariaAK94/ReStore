@@ -47,12 +47,20 @@ function ProductDetails() {
   return (      
         <Box 
           display="grid" 
-          gridTemplateColumns="repeat(2, 1fr)" 
-          gap={6}
-          sx={{ height: '70%' }}
+          gridTemplateColumns={{
+            md : "repeat(2, 1fr)" ,
+            xs: "1fr", 
+            sm: "1fr"
+          }} 
+          gap={{md:6,xs:2,sm:2}}
+          sx={{ height:'70%', mb:2}}
         >
-            <Box >
-                <img src={product.pictureUrl} alt={product.name} style={{width:'100%', height:'80%'}} />
+            <Box>
+                <img 
+                src={product.pictureUrl} 
+                alt={product.name} 
+                style={{width:'100%', height:'80%'}}
+                 />
             </Box>
             <Box>
               <Typography variant='h4'>{product.name}</Typography>

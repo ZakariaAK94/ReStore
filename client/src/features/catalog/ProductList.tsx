@@ -20,8 +20,7 @@ export default function ProductList({products}:Props)
                     sm: "repeat(2, 1fr)", 
                     md: "repeat(3, 1fr)", 
                 }}
-                gap={3} 
-                justifyContent="center"                
+                gap={3}                 
                 >
                 {products.map((product) => (
                     <Box key={product.id} sx={{borderRadius: 2 }}>

@@ -17,9 +17,10 @@ import { signInUser } from "./accountSlice";
 
 export default function Login() {
   const location = useLocation();
-  const dispatch = useAppDispatch();
+  const from = location.state?.from || '/catalog'; // fallback route
   const navigate = useNavigate();
-    const { register, handleSubmit, formState:{isSubmitting,isValid, errors} } = useForm({
+  const dispatch = useAppDispatch();
+  const { register, handleSubmit, formState:{isSubmitting,isValid, errors} } = useForm({
       defaultValues:{
         username:'',
         password:''
@@ -30,10 +31,10 @@ export default function Login() {
     async function SubmitForm(data:FieldValues)
     {
        try{
-        await dispatch(signInUser(data));
-        navigate(location.state?.from || "/catalog");
+        await dispatch(signInUser(data));        
+        navigate(from);
       }catch(error)
-      {
+      {     
         console.log(error);
       }
     }
@@ -107,7 +108,7 @@ export default function Login() {
 
         <Typography>
           Don&apos;t have an account?{" "}
-          <Link to="/register" color="secondary">
+          <Link to="/register" color="secondary" state={{from}}>
             Sign up
           </Link>
         </Typography>

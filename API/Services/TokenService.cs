@@ -24,22 +24,22 @@ namespace API.Services
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.UserName)
-            } ;
+            };
 
             var roles = await _userManager.GetRolesAsync(user);
             foreach (var role in roles)
             {
-                Claims.Add(new Claim(ClaimTypes.Role,role));
+                Claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTSettings:TokenKey"]));
 
-            var creds = new SigningCredentials(key,SecurityAlgorithms.HmacSha512);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
             var tokenOptions = new JwtSecurityToken(
-                issuer:null,
-                audience:null,
-                claims:Claims,
+                issuer: null,
+                audience: null,
+                claims: Claims,
                 expires: DateTime.Now.AddDays(7),
                 signingCredentials: creds
             );

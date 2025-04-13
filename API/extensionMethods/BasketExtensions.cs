@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 namespace API.extensionMethods
 {
     public static class BasketExtensions
-    {        
-         public static BasketDTO MapBasketToDTO(this Basket basket)
+    {
+        public static BasketDTO MapBasketToDTO(this Basket basket)
         {
             return new BasketDTO
             {
@@ -28,8 +28,8 @@ namespace API.extensionMethods
             };
         }
 
-         public static IQueryable<Basket> GetBasket(this IQueryable<Basket> query, string buyerId)
-        {            
+        public static IQueryable<Basket> GetBasket(this IQueryable<Basket> query, string buyerId)
+        {
             return query.Include(i => i.Items)
                         .ThenInclude(p => p.Product)
                         .Where(u => u.BuyerId == buyerId);
