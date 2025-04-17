@@ -1,9 +1,8 @@
-import List from "@mui/material/List";
-import { AppBar, Badge, Box, IconButton, ListItem, Switch, Toolbar, Typography } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
-import { ShoppingCart } from "@mui/icons-material";
+import { AppBar, Box, Switch, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../features/contact/configureStore";
-import DropMenu from "../components/DropMenu";
+import DesktopNav from "./DesktopNav";
+import MobileNav from "./MobileNav";
 
 const midLinks = [
     {title:'catalog', path:'/catalog'},
@@ -23,6 +22,8 @@ interface Props{
 
 export default function Header({darkMode,handleSwitchMode}:Props)
 {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const {user} = useAppSelector(state=>state.account); 
     const navStyles = {
         color:'inherit', 
@@ -45,64 +46,30 @@ export default function Header({darkMode,handleSwitchMode}:Props)
                 <Box
                     display='flex' 
                     alignItems='center' 
-                    sx={{
-                    flexDirection: { xs: "column", sm: "row" }, // Stack vertically on small screens
-                    gap: { xs: 2, sm: 2 }, // Adjust spacing between items for small screens
-                 }}>
+                 >
                     <Typography variant="h5" component={NavLink} to='/' sx={navStyles} >
                         RE-STORE
                     </Typography>
                     <Switch checked={darkMode} onChange={handleSwitchMode} />
-                </Box>
+                </Box>               
 
-                
-                <Box  >
-                    <List sx={{ display: "flex" }}>
-                        {midLinks.map(({title, path})=>(
-                            <ListItem
-                                component={NavLink}
-                                to={path}
-                                key={path}
-                                sx={navStyles}
-                            >
-                                {title.toLocaleUpperCase()}
-                            </ListItem>
-                        ))}
-                        {user && user.roles?.includes("Admin") &&
-                        <ListItem
-                        component={NavLink}
-                        to={'/inventory'}
-                        sx={navStyles}
-                        >
-                            INVENTORY
-                        </ListItem>
-                        }
-                    </List>
-                </Box>
+                 {
+                 isMobile 
+                 ? <MobileNav 
+                      user={user} 
+                      totalQuantity={totalQuantity} 
+                      midLinks={midLinks} 
+                      rightLinks={rightLinks} 
+                      navStyles={navStyles} /> 
+                 : <DesktopNav 
+                      user={user} 
+                      totalQuantity={totalQuantity} 
+                      midLinks={midLinks} 
+                      rightLinks={rightLinks} 
+                      navStyles={navStyles} />
+                 }
+                 
 
-                <Box display='flex' alignItems='center'>
-                    <IconButton component={Link} to='/basket' size="small" edge="start" color='inherit' sx={{mr:2}}>
-                        <Badge badgeContent={totalQuantity} color="secondary">
-                            <ShoppingCart />
-                        </Badge>
-                    </IconButton>
-                    {user ? (
-                        <DropMenu />
-                    ):(
-                        <List sx={{ display: "flex" }}>
-                        {rightLinks.map(({title, path})=>(
-                            <ListItem
-                                component={NavLink}
-                                to={path}
-                                key={path}
-                                sx={navStyles}
-                            >
-                                {title.toLocaleUpperCase()}
-                            </ListItem>
-                        ))}                          
-                    </List>
-                    )}
-                </Box>
             </Toolbar>
         </AppBar>
     )

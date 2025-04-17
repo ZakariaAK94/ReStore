@@ -33,7 +33,7 @@ export default function DropMenu() {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem component={Link} to='/profile'>Profile</MenuItem>
         <MenuItem component={Link} to='/orders'>My orders</MenuItem>
         <MenuItem onClick={()=>{
           dispatch(SiginOut());

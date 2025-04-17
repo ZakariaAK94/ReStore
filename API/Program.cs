@@ -1,6 +1,7 @@
 using System.Text;
 using API.Data;
 using API.Entities;
+using API.IServices;
 using API.Middleware;
 using API.RequestHelpers;
 using API.Services;
@@ -94,6 +95,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<PaymentService>();
 builder.Services.AddScoped<ImageService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 

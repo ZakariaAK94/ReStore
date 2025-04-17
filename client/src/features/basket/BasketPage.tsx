@@ -9,7 +9,7 @@ function BasketPage() {
   const {basket} = useAppSelector(state=>state.basket);
   const subtotal = basket?.items?.reduce((sum,item)=> sum += (item.price) *item.quantity,0) ?? 0;
  
- if(!basket) return <Typography variant='h3'>basket is empty, please add items!!</Typography>
+ if(!basket ) return <Typography variant='h3'>basket is empty, please add items!!</Typography>
 
   return (
     <>
