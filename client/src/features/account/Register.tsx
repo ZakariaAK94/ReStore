@@ -124,7 +124,8 @@ export default function Register() {
             disabled={!isValid}
             type="submit" 
             loading={isSubmitting} 
-            fullWidth variant="contained" 
+            fullWidth 
+            variant="contained" 
             sx={{ mt: 2, p:1 }}>
               Register
           </Button>

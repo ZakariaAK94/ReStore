@@ -8,7 +8,7 @@ import { useAppDispatch } from "../../features/contact/configureStore";
 import { fetchBasketAsync } from "../../features/basket/basketSlice";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import HomePage from "../../features/home/HomePage";
-import HeaderTest from "./HeaderTest";
+import Header from "./Header";
 
 function App() {
 
@@ -50,7 +50,7 @@ function App() {
 
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <HeaderTest handleSwitchMode={handleSwitchMode} darkMode={darkMode} />
+      <Header handleSwitchMode={handleSwitchMode} darkMode={darkMode} />
       {loading ? <LoadingComponent message="Initializing app..." />
         : location.pathname === "/" ? <HomePage />
           : <Container sx={{mt:4}}>

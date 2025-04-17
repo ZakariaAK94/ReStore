@@ -2,6 +2,7 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.extensionMethods;
+using API.IServices;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,10 +16,11 @@ namespace API.Controllers
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
         private readonly StoreContext _context;
+        private readonly IUserService _userService;
 
-
-        public AccountController(UserManager<User> userManager, TokenService tokenService, StoreContext context)
+        public AccountController(UserManager<User> userManager, TokenService tokenService, StoreContext context, IUserService userService)
         {
+            _userService = userService;
             _tokenService = tokenService;
             _context = context;
             _userManager = userManager;
@@ -48,6 +50,7 @@ namespace API.Controllers
 
             return new UserDTO
             {
+                UserName = user.UserName,
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
                 Basket = anonBaskt != null ? anonBaskt.MapBasketToDTO() : userBasket?.MapBasketToDTO()
@@ -86,6 +89,7 @@ namespace API.Controllers
 
             return new UserDTO
             {
+                UserName = user.UserName,
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
                 Basket = currentUserBasket?.MapBasketToDTO()
@@ -113,5 +117,57 @@ namespace API.Controllers
                               .ThenInclude(p => p.Product)
                               .FirstOrDefaultAsync(u => u.BuyerId == buyerId);
         }
+
+        [Authorize]
+        [HttpPut("editprofile")]
+        public async Task<ActionResult> UpdateProfile(ProfileDTO dto)
+        {
+             var username = User.Identity.Name;
+            var result = await _userService.UpdateProfileAsync(username, dto);
+            if(!result.Success) return BadRequest(new ProblemDetails{Title=result.ErrorMessage});
+            return Ok(new { message = "Profile updated successfully!" });
+        }
+
+        [Authorize]
+        [HttpPut("change-password")]
+        public async Task<ActionResult> ChangePassword(ChangePasswordDTO dto)
+        {
+            var username = User.Identity.Name;
+            var result = await _userService.ChangePasswordAsync(username, dto);
+            if (!result.Success)
+                return BadRequest(new ProblemDetails{Title=result.ErrorMessage});
+
+            return Ok(new { message = "Password changed successfully!" });
+        }
+
+        [Authorize] 
+        [HttpDelete("delete-account")]
+        public async Task<IActionResult> DeleteAccount([FromBody]DeleteAccountDTO deleteAccount)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if(user == null)
+                return NotFound(new ProblemDetails{Title="User not found"});
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            if(roles.Contains("Admin"))
+            {
+                return Forbid("Admin is not allowed to delete his account.");
+            }
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, deleteAccount.CurrentPassword);
+            if (!isPasswordValid)
+                return BadRequest(new ProblemDetails{Title="Invalid password."}); 
+ 
+            var result = await _userManager.DeleteAsync(user);
+
+            if (!result.Succeeded)
+                return BadRequest(new ProblemDetails{Title="Failed to delete account"});
+
+            return Ok("Account deleted successfully");
+        }
+
+
     }
 }

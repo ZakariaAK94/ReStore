@@ -70,7 +70,11 @@ const Requests = {
       }}).then(responseBody),
     putForm:(url:string, data: FormData) => axios.put(url,data, {headers: {
       'Content-Type': 'multipart/form-data'
-    }}).then(responseBody)
+    }}).then(responseBody),
+    deleteAccount: (url: string, data: {}) =>
+        axios.delete(url, {data, headers: {
+            'Content-Type': 'application/json'
+        }}).then(responseBody)
     
 }
 
@@ -115,7 +119,10 @@ const Account ={
     login:(values:any) => Requests.post('account/login',values),
     register:(values:any) => Requests.post('account/register',values),
     currentUser: () => Requests.get('account/currentUser'),
-    fetchAddress:()=>Requests.get('account/savedAddress')
+    fetchAddress:()=>Requests.get('account/savedAddress'),
+    editProfile:(values:any)=>Requests.put('account/editprofile',values),
+    changePassword:(values:any)=>Requests.put('account/change-password',values),
+    deleteAccount : (currentPassword:{})=>Requests.deleteAccount('account/delete-account',currentPassword)
 }
 
 const Payment ={
