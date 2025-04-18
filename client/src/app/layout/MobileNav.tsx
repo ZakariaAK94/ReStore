@@ -63,14 +63,22 @@ export default function DesktopNav({midLinks,rightLinks,navStyles,user,totalQuan
                     </ListItem>
                 ))}
                 {user && user.roles?.includes("Admin") &&
-                <ListItem
-                component={NavLink}
-                to={'/inventory'}
-                sx={navStyles}
-                onClick={handleClose}
-                >                            
-                    INVENTORY
-                </ListItem>
+                   <>
+                   <ListItem
+                   component={NavLink}
+                   to={'/inventory'}
+                   sx={navStyles}
+                   >
+                       INVENTORY
+                   </ListItem>
+                    <ListItem
+                    component={NavLink}
+                    to={'/errortestpage'}
+                    sx={navStyles}
+                    >
+                        ErrorTestPage
+                    </ListItem>
+                   </>
                 }
                 <IconButton component={Link} to='/basket' size="small" edge="start" color='inherit' sx={{mr:{md:2}, ml:{xs:2,sm:2}}}>
                     <Badge badgeContent={totalQuantity} color="secondary" >

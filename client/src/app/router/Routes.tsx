@@ -14,6 +14,7 @@ import Orders from "../../features/order/Orders";
 import CheckoutWrapper from "../../features/checkout/CheckoutFeatures/CheckoutWrapper";
 import Inventory from "../../features/admin/Inventory";
 import ProfilePage from "../../features/profile/ProfilePage";
+import ErrorTestPage from "../../features/admin/ErrorTestPage";
 
 export const router = createBrowserRouter([
     {
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
             ]},
             {element:<RequireAuth roles={['Admin']} />, children:[
                 { path:'inventory', element:<Inventory/> },
+                { path:'errortestpage', element:<ErrorTestPage/> },
             ]},
             { path:'catalog', element:<Catalog/> },
             { path:'catalog/:id', element:<ProductDetails/> },

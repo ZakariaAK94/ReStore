@@ -22,7 +22,7 @@ export default function ChangePassword()
 
     function handleApiErrors(errors:any)
     {
-      if(errors)
+      if (Array.isArray(errors))
       {
         errors.forEach((error:string) => {
             if(error.includes("oldPassword"))
@@ -36,6 +36,8 @@ export default function ChangePassword()
                 setError("confirmPassword",{message:error})
             }
         });
+      }else {
+        console.error("API error format is not an array:", errors);
       }
       
     }
