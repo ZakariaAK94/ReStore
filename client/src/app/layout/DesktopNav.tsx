@@ -36,6 +36,7 @@ export default function DesktopNav({midLinks,rightLinks,navStyles,user,totalQuan
                                   </ListItem>
                               ))}
                               {user && user.roles?.includes("Admin") &&
+                              <>
                               <ListItem
                               component={NavLink}
                               to={'/inventory'}
@@ -43,6 +44,14 @@ export default function DesktopNav({midLinks,rightLinks,navStyles,user,totalQuan
                               >
                                   INVENTORY
                               </ListItem>
+                               <ListItem
+                               component={NavLink}
+                               to={'/errortestpage'}
+                               sx={navStyles}
+                               >
+                                   ErrorTestPage
+                               </ListItem>
+                              </>
                               }
                           </List>
                       </Box>
